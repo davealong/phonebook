@@ -1,0 +1,338 @@
+package mainpackage;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+
+public class PhonebookApplication {
+	public static Scanner in=new Scanner (System.in);
+
+	public static int currentInt = 2;
+	public static Person [] people = new Person[currentInt];
+	
+	
+	public static Person [] addLine(Person e) {
+		  people[currentInt]=people[people.length+1];
+		  currentInt++;
+		  return people;
+		 }
+	public static int currentEntry=0;
+	public static Person[] add (Person e) {
+		people[currentEntry] = e;
+		currentEntry++;
+		
+	return people;	
+	}
+	
+	public static void main(String[] args) {
+		
+	//take a string and split it into smaller strings within this main method so it can be used within the individual methods
+		
+			System.out.println("What would you like to do?");
+			
+			System.out.println("1 Add a new entry");
+			System.out.println("2 Show Contacts");
+			System.out.println("3 Search");
+			System.out.println("4 Exit the program");
+			System.out.println("5 Delete record");
+			System.out.println("6 Update record");
+		
+			Scanner in = new Scanner(System.in);
+			//need to add objects to an array
+			//use an array list...? NO
+			
+			int option=in.nextInt();
+			
+			
+			switch(option) {
+			case 1:
+			System.out.println("Please add a new entry in this format: Full name, phone number, street number, city, state, zip");
+			addEntry();
+			main(args);
+			break;
+			
+			case 2:
+			System.out.println("This is a list of all contacts in the database:");
+			printUser();
+			main(args);
+			break;
+			
+			case 3:
+			search();
+			main(args);
+			break;
+			
+			case 4:
+			exit();
+			break;
+			
+			case 5:
+			deleteRecord();
+			main(args);
+			break;
+			
+			case 6:
+			updateRecord();
+			main(args);
+			break;
+			}
+	}
+
+	public static void addEntry() {
+		
+//		public static Person[] add(people) {
+//			  people[currentInt]=e;
+//			  currentInt++;
+//			  return people;
+//		}
+		
+		String input = in.nextLine();
+		
+		String [] contactArray = input.split(", ");
+		
+		String fullName = contactArray[0];
+		String phoneNumber = contactArray[1];
+		String street = contactArray[2];
+		String city = contactArray[3];
+		String state = contactArray[4];
+		String zip = contactArray[5];
+		
+		String [] wholeName = fullName.split(" ");
+		
+		String firstName = wholeName[0];
+		String lastName = wholeName[wholeName.length -1];
+		
+		Address address = new Address(street, city, state, zip);
+		
+		Person person = new Person(firstName, lastName, phoneNumber, address);
+		
+		Person e = person;
+	
+		people = add(e);
+		
+		
+	}
+
+	public static void printUser() {
+	
+		for (Person person : people) 
+			  try
+			  {
+			  if (person!=null) {
+			  System.out.println(person);
+			  }
+			  else {
+			  break;
+			  }
+			  }
+			  catch (NullPointerException e) {
+			 
+			  }
+
+	}
+
+			public static void search() {
+				Scanner sc = new Scanner(System.in);
+				 System.out.println("What are you searching by?");
+				 System.out.println("1 Full Name");
+				 System.out.println("2 First Name");
+				 System.out.println("3 Last Name");
+				 System.out.println("4 Phone Number");
+				 System.out.println("5 Street");
+				 System.out.println("6 City");
+				 System.out.println("7 State");
+				 System.out.println("8 Zip");
+				 
+				int input = sc.nextInt();
+				switch(input) {
+				case 1:
+					System.out.println("Please enter a full name to search:");
+					searchByFullName();
+					break;
+					
+				case 2:
+					System.out.println("Please enter a first name to search:");
+					searchByFirstName();
+					break;
+					
+				case 3:
+					System.out.println("Please enter a last name to search:");
+					searchByLastName();
+					break;
+					
+				case 4:
+					System.out.println("Please enter a phone number to search:");
+					searchByPhoneNumber();
+					break;
+					
+				case 5:
+					System.out.println("Please enter a street to search:");
+					searchByStreet();
+					break;
+					
+				case 6:
+					System.out.println("Please enter a city to search:");
+					searchByCity();
+					break;
+					
+				case 7:
+					System.out.println("Please enter a state to search:");
+					searchByState();
+					break;
+					
+				case 8:
+					System.out.println("Please enter a zip to search:");
+					searchByZip();
+					break;
+				}
+	
+}
+			public static void searchByFullName() {
+				String name = in.nextLine();
+				
+				String [] wholeName = name.split(" ");
+				
+				String firstName = wholeName[0];
+				String lastName = wholeName[wholeName.length -1];
+				try {
+				for(Person person : people) {
+					if(person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+						System.out.println(person);
+					}
+				}
+				
+			}catch(NullPointerException e) {
+				System.out.println("No More Contacts");
+			}
+		
+		}	
+			
+			public static void searchByFirstName() {
+				String firstName = in.nextLine();
+				try {
+				for(Person person : people) {
+					if(person.getFirstName().equals(firstName))
+						System.out.println(person);
+				}
+			}catch(NullPointerException e) {
+				System.out.println("No More Contacts");
+			}
+		}
+			
+			public static void searchByLastName() {
+				String lastName = in.nextLine();
+				try {
+				for(Person person : people) {
+					if(person.getLastName().equals(lastName))
+						System.out.println(person);
+				}
+			}catch(NullPointerException e) {
+				System.out.println("No More Contacts");
+			}
+		}
+			
+			public static void searchByPhoneNumber() {
+				String phoneNumber = in.nextLine();
+				try {
+					for(Person person : people) {
+						if(person.getPhoneNumber().equals(phoneNumber))
+							System.out.println(person);
+					}
+				}catch(NullPointerException e) {
+					System.out.println("No More Contacts");
+				}
+			}
+			
+			public static void searchByStreet() {
+				String street = in.nextLine();
+				try {
+					for(Person person : people) {
+						if(person.getAddress().getStreet().equals(street));
+							System.out.println(person);
+					}
+				}catch(NullPointerException e) {
+					System.out.println("No More Contacts");
+				}
+			}
+			
+			public static void searchByCity() {
+				String city = in.nextLine();
+				try {
+					for(Person person : people) {
+						if(person.getAddress().getCity().equals(city));
+							System.out.println(person);
+					}
+				}catch(NullPointerException e) {
+					System.out.println("No More Contacts");
+				}
+			}
+			
+			public static void searchByState() {
+				String state = in.nextLine();
+				try {
+					for(Person person : people) {
+						if(person.getAddress().getState().equals(state));
+							System.out.println(person);
+					}
+				}catch(NullPointerException e) {
+					System.out.println("No More Contacts");
+				}
+			}
+			
+			public static void searchByZip() {
+				String zip = in.nextLine();
+				try {
+					for(Person person : people) {
+						if(person.getAddress().getZip().equals(zip));
+							System.out.println(person);
+					}
+				}catch(NullPointerException e) {
+					System.out.println("No More Contacts");
+				}
+			}
+			
+			public static void exit() {
+				
+				System.out.println("Goodbye");
+			}
+			
+			public static void deleteRecord() {
+				System.out.print("Enter phone number of contact to delete:\n");
+				  String phone = in.nextLine();
+				  for (Person array: people) {
+				  if (array.getPhoneNumber().equals(phone)) {
+				  for (int i = 0; i < people.length; i++) {
+				  if (people[i]==array) {
+				  for (int j = i; j < people.length - 1; j++) {
+				  people[j]=people[j +1];
+				  }
+				}
+			}
+				  System.out.println("Deleted " + array.getFirstName() + " " + array.getLastName() + ".");
+				  break;
+				  }
+				}
+			}
+			
+			public static void updateRecord() {
+				System.out.println("Enter phone number of contact to update:");
+					String phone = in.nextLine();
+					String updatedEntry=in.nextLine();
+					for (Person array : people) {
+					if (array.getPhoneNumber().equals(phone)) {
+					for (int i=0; i<people.length; i++) {
+					if (people[i]==array) {
+					for (int j=i; j<people.length; j++) {
+						
+					}
+					}
+					}
+					}
+					
+			}
+			
+		}
+		
+}
+			
+
